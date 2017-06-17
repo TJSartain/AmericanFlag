@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -24,25 +24,40 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hwy-p5-Lk3" customClass="FlagView" customModule="AmericanFlag" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="20" width="667" height="355"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" notEnabled="YES"/>
+                                </accessibility>
                                 <gestureRecognizers/>
                                 <connections>
-                                    <outletCollection property="gestureRecognizers" destination="JwD-9g-xv9" appends="YES" id="RPU-br-cLY"/>
+                                    <outletCollection property="gestureRecognizers" destination="rra-JD-sXd" appends="YES" id="sNg-Bw-YpR"/>
                                 </connections>
                             </view>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mlt-2s-bJv">
+                                <rect key="frame" x="625" y="333" width="22" height="22"/>
+                                <color key="tintColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.43137254901960786" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <segue destination="c9K-v7-sv4" kind="showDetail" identifier="Info" id="Beo-er-yQR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Mlt-2s-bJv" secondAttribute="trailing" constant="20" id="2HR-i2-U6N"/>
                             <constraint firstAttribute="trailing" secondItem="Hwy-p5-Lk3" secondAttribute="trailing" id="CO9-YX-wPq"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Hwy-p5-Lk3" secondAttribute="bottom" id="RyL-Xc-BHH"/>
                             <constraint firstItem="Hwy-p5-Lk3" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="oTV-9M-qrj"/>
                             <constraint firstItem="Hwy-p5-Lk3" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="sqk-CF-fbL"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Mlt-2s-bJv" secondAttribute="bottom" constant="20" id="usx-B6-HgS"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="infoButton" destination="Mlt-2s-bJv" id="bNs-iE-INu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-                <tapGestureRecognizer numberOfTapsRequired="2" id="JwD-9g-xv9">
+                <tapGestureRecognizer id="rra-JD-sXd">
                     <connections>
-                        <segue destination="c9K-v7-sv4" kind="showDetail" identifier="Info" id="Eg9-ti-Zw4"/>
+                        <action selector="tap:" destination="BYZ-38-t0r" id="6tL-xg-C2G"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -73,7 +88,7 @@
 
 The colors are used in accordance with the CAUS Standard Color Reference of America.
 
-The U.S. flag has been modified over 25 times since the original was created in 1977. Today’s version, designed by 17-year old Robert G. Heft in 1958, has been in use the longest of them all.
+The U.S. flag has been modified over 25 times since the original was created in 1777. Today’s version, designed by 17-year old Robert G. Heft in 1958, has been in use the longest.
 
 Much more information, including proper flag etiquette especially in terms of display, can be found at https://en.wikipedia.org/wiki/Flag_of_the_United_States.</mutableString>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
