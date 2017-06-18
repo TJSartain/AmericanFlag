@@ -13,11 +13,11 @@ class FlagView: UIView
     let STRIPES = 13
     let UNION = 7 // stripes in the union height
     
-    var A: CGFloat = 0 // height
-    var B: CGFloat = 0 // official ratio of the U.S. flag is 1.9
+    var A: CGFloat = 0 // hoist (height)
+    var B: CGFloat = 0 // fly (width) official ratio of the U.S. flag is 1.9
     var L: CGFloat = 0 // height of a stripe
-    var C: CGFloat = 0 // height of the union
-    var D: CGFloat = 0 // width of the union
+    var C: CGFloat = 0 // hoist (height) of the canton (union)
+    var D: CGFloat = 0 // fly (width) of the canton
     var E: CGFloat = 0 // vertical distance between stars
     var G: CGFloat = 0 // horizontal distance between stars
     var K: CGFloat = 0 // diameter of stars
@@ -45,7 +45,7 @@ class FlagView: UIView
         D = B * 0.4
         E = C / 10
         G = D / 12
-        K = A * 0.0616
+        K = L * 0.8
         
         oldGloryRed.setFill()
         var stripeRect = CGRect(x: 0, y: 0, width: B, height: L)
@@ -58,8 +58,8 @@ class FlagView: UIView
         UIBezierPath.init(rect: CGRect(x: 0, y: 0, width: D, height: C)).fill()
         
         star = starPath(center: CGPoint(x: G, y: E), radius: K/2)
-        let tab = CGAffineTransform(translationX: 2*G, y: 0)
-        var cr = CGAffineTransform(translationX: -12*G, y: 2*E)
+        let tab = CGAffineTransform(translationX: 2*G, y: 0) // move to the right
+        var cr = CGAffineTransform(translationX: -12*G, y: 2*E) // move down and all the way back
         UIColor.white.setFill()
         for _ in 0..<5 {
             for _ in 0..<6 {
@@ -68,8 +68,8 @@ class FlagView: UIView
             }
             star.apply(cr)
         }
-        star = starPath(center: CGPoint(x: 2*G, y: 2*E), radius: K/2)
-        cr = CGAffineTransform(translationX: -10*G, y: 2*E)
+        star = starPath(center: CGPoint(x: 2*G, y: 2*E), radius: K/2) // different starting opint
+        cr = CGAffineTransform(translationX: -10*G, y: 2*E) // moving back but less far
         for _ in 0..<4 {
             for _ in 0..<5 {
                 star.fill()
