@@ -25,12 +25,14 @@ class FlagView: UIView
     var oldGloryRed = UIColor()
     var oldGloryBlue = UIColor()
     
+    var star = UIBezierPath()
+    
     required init!(coder aDecoder: NSCoder)
     {
         super.init(coder: aDecoder)!
         
-        oldGloryRed  = color(r: 178, g: 34, b:  52) // official red of the U.S. flag
-        oldGloryBlue = color(r:  60, g: 60, b: 110) // official blue of the U.S. flag
+        oldGloryRed  = color(178, 34,  52) // official red of the U.S. flag
+        oldGloryBlue = color( 60, 60, 110) // official blue of the U.S. flag
         backgroundColor = UIColor.white
     }
     
@@ -55,18 +57,25 @@ class FlagView: UIView
         oldGloryBlue.setFill()
         UIBezierPath.init(rect: CGRect(x: 0, y: 0, width: D, height: C)).fill()
         
+        star = starPath(center: CGPoint(x: G, y: E), radius: K/2)
+        let tab = CGAffineTransform(translationX: 2*G, y: 0)
+        var cr = CGAffineTransform(translationX: -12*G, y: 2*E)
         UIColor.white.setFill()
-        for r in 0..<5 {
-            for c in 0..<6 {
-                let center = CGPoint(x: G * (2 * CGFloat(c) + 1), y: E * (2 * CGFloat(r) + 1))
-                starPath(center: center, radius: K / 2).fill()
+        for _ in 0..<5 {
+            for _ in 0..<6 {
+                star.fill()
+                star.apply(tab)
             }
+            star.apply(cr)
         }
-        for r in 0..<4 {
-            for c in 0..<5 {
-                let center = CGPoint(x: 2 * G * (CGFloat(c) + 1), y: 2 * E * (CGFloat(r) + 1))
-                starPath(center: center, radius: K / 2).fill()
+        star = starPath(center: CGPoint(x: 2*G, y: 2*E), radius: K/2)
+        cr = CGAffineTransform(translationX: -10*G, y: 2*E)
+        for _ in 0..<4 {
+            for _ in 0..<5 {
+                star.fill()
+                star.apply(tab)
             }
+            star.apply(cr)
         }
     }
     
@@ -84,7 +93,7 @@ class FlagView: UIView
         return path
     }
     
-    func color(r: Float, g: Float, b: Float) -> UIColor
+    func color(_ r: Float, _ g: Float, _ b: Float) -> UIColor
     {
         return UIColor.init(colorLiteralRed: r/255, green: g/255, blue: b/255, alpha: 1)
     }
