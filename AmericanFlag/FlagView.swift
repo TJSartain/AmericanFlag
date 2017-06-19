@@ -38,8 +38,8 @@ class FlagView: UIView
     
     override func draw(_ rect: CGRect)
     {
-        A = rect.size.height // ratio will probably be incorrect
-        B = rect.size.width  // but this will fill the screen
+        A = rect.size.height // ratio will probably not be the official 1.9
+        B = rect.size.width  // but it will fill the screen
         L = A / CGFloat(STRIPES)
         C = L * CGFloat(UNION)
         D = B * 0.4
