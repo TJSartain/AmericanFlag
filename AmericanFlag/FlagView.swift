@@ -51,7 +51,7 @@ class FlagView: UIView
         oldGloryBlue.setFill() // draw the blue canton (union)
         UIBezierPath.init(rect: CGRect(x: 0, y: 0, width: D, height: C)).fill()
         
-        UIColor.white.setFill() // stars are white
+        UIColor.white.setFill() // draw the white stars
         drawStarField(E, G, K)
     }
     
@@ -86,9 +86,9 @@ class FlagView: UIView
         for r in 0..<9 { // 9 rows
             for _ in 0..<(r%2==0 ? 6 : 5) { // odd rows have 1 less star
                 star.fill()
-                star.apply(tab)
+                star.apply(tab) // next spot over
             }
-            star.apply(cr)
+            star.apply(cr) // next row
         }
     }
     
@@ -130,18 +130,6 @@ class FlagView: UIView
     func color(_ r: Float, _ g: Float, _ b: Float) -> UIColor
     {
         return UIColor.init(colorLiteralRed: r/255, green: g/255, blue: b/255, alpha: 1)
-    }
-    
-    func makeImage()
-    {
-        UIGraphicsBeginImageContext(CGSize(width: 1024 * 1.9, height: 1024))
-        
-        drawFlag(CGRect(x: 0, y: 0, width: 1024 * 1.9, height: 1024))
-        
-        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-        UIGraphicsEndImageContext()
-        
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
 
 }

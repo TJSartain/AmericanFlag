@@ -15,7 +15,7 @@ class ViewController: UIViewController
     
     @IBAction func tap(_ sender: Any)
     {
-//        flagView.makeImage() // used to make the large version for the AppStore icon
+      makeImage() // used to make the large version for the AppStore icon
         fadeButton(show: self.infoButton.alpha == 0)
     }
     
@@ -29,6 +29,15 @@ class ViewController: UIViewController
                             self.infoButton.alpha = show ? 1 : 0
                         },
                        completion: nil)
+    }
+    
+    func makeImage()
+    {
+        UIGraphicsBeginImageContext(CGSize(width: 2208, height: 1242))
+        flagView.drawFlag(CGRect(x: 0, y: 0, width: 2208, height: 1242))
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
 
 }
