@@ -13,19 +13,8 @@ class FlagView: UIView
     let STRIPES = 13
     let UNION = 7 // stripes in the union height
     
-    var A: CGFloat = 0 // hoist (height)
-    var B: CGFloat = 0 // fly (width) official ratio of the U.S. flag is 1.9
-    var L: CGFloat = 0 // height of a stripe
-    var C: CGFloat = 0 // hoist (height) of the canton (union)
-    var D: CGFloat = 0 // fly (width) of the canton
-    var E: CGFloat = 0 // vertical distance between stars
-    var G: CGFloat = 0 // horizontal distance between stars
-    var K: CGFloat = 0 // diameter of stars
-    
     var oldGloryRed = UIColor()
     var oldGloryBlue = UIColor()
-    
-    var star = UIBezierPath()
     
     required init!(coder aDecoder: NSCoder)
     {
@@ -33,45 +22,46 @@ class FlagView: UIView
         
         oldGloryRed  = color(178, 34,  52) // official red of the U.S. flag
         oldGloryBlue = color( 60, 60, 110) // official blue of the U.S. flag
-        backgroundColor = UIColor.white
+        backgroundColor = UIColor.white // no need to draw the white stripes
     }
     
     override func draw(_ rect: CGRect)
     {
-        A = rect.size.height // ratio will probably not be the official 1.9
-        B = rect.size.width  // but it will fill the screen
-        L = A / CGFloat(STRIPES)
-        C = L * CGFloat(UNION)
-        D = B * 0.4
-        E = C / 10
-        G = D / 12
-        K = L * 0.8
+        let A = rect.size.height        // hoist (height)
+        let B = rect.size.width         // fly (width) official ratio of the U.S. flag is 1.9
+        let L = A / CGFloat(STRIPES)    // height of a stripe
+        let C = L * CGFloat(UNION)      // hoist (height) of the canton (union)
+        let D = B * 2 / 5               // fly (width) of the canton
+        let E = C / 10                  // vertical distance between stars
+        let G = D / 12                  // horizontal distance between stars
+        let K = L * 4 / 5               // diameter of stars
         
-        oldGloryRed.setFill()
+        oldGloryRed.setFill() // draw the red stripes
+        drawStripes(B, L)
+        
+        oldGloryBlue.setFill() // draw the blue canton (union)
+        UIBezierPath.init(rect: CGRect(x: 0, y: 0, width: D, height: C)).fill()
+        
+        UIColor.white.setFill() // stars are white
+        drawStarField(E, G, K)
+    }
+    
+    func drawStripes(_ B: CGFloat, _ L: CGFloat)
+    {
         var stripeRect = CGRect(x: 0, y: 0, width: B, height: L)
         for _ in stride(from: 0, to: STRIPES, by: 2) {
             UIBezierPath.init(rect: stripeRect).fill()
-            stripeRect.origin.y += 2 * L
+            stripeRect.origin.y += 2 * L // skip to next stripe
         }
-        
-        oldGloryBlue.setFill()
-        UIBezierPath.init(rect: CGRect(x: 0, y: 0, width: D, height: C)).fill()
-        
-        star = starPath(center: CGPoint(x: G, y: E), radius: K/2)
-        let tab = CGAffineTransform(translationX: 2*G, y: 0) // move to the right
-        var cr = CGAffineTransform(translationX: -12*G, y: 2*E) // move down and all the way back
-        UIColor.white.setFill()
-        for _ in 0..<5 {
-            for _ in 0..<6 {
-                star.fill()
-                star.apply(tab)
-            }
-            star.apply(cr)
-        }
-        star = starPath(center: CGPoint(x: 2*G, y: 2*E), radius: K/2) // different starting opint
-        cr = CGAffineTransform(translationX: -10*G, y: 2*E) // moving back but less far
-        for _ in 0..<4 {
-            for _ in 0..<5 {
+    }
+    
+    func drawStarField(_ E: CGFloat, _ G: CGFloat, _ K: CGFloat)
+    {
+        let star = starPath(center: CGPoint(x: G, y: E), radius: K/2) // create one star
+        let tab = CGAffineTransform(translationX: 2*G, y: 0) // xform to move to the right
+        let cr = CGAffineTransform(translationX: -11*G, y: E) // xform to move down and back
+        for r in 0..<9 { // 9 rows
+            for _ in 0..<(r%2==0 ? 6 : 5) { // odd rows have 1 less star
                 star.fill()
                 star.apply(tab)
             }
