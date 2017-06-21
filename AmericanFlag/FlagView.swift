@@ -27,8 +27,17 @@ class FlagView: UIView
     
     override func draw(_ rect: CGRect)
     {
-        let A = rect.size.height        // hoist (height)
-        let B = rect.size.width         // fly (width) official ratio of the U.S. flag is 1.9
+        drawFlag(rect)
+    }
+    
+    /// Draws the entire flag based on the official dimensions and colors
+    ///
+    /// - Parameter rect: the reactangle of this UIView
+    
+    func drawFlag(_ rect: CGRect)
+    {
+        let A = rect.size.height        // hoist (height) official ratio of the U.S. flag is 1.9
+        let B = rect.size.width         // fly (width)    but we're just fitting it to the screen
         let L = A / CGFloat(STRIPES)    // height of a stripe
         let C = L * CGFloat(UNION)      // hoist (height) of the canton (union)
         let D = B * 2 / 5               // fly (width) of the canton
@@ -46,6 +55,12 @@ class FlagView: UIView
         drawStarField(E, G, K)
     }
     
+    /// Draws the red stripes only
+    ///
+    /// - Parameters:
+    ///   - B: width
+    ///   - L: height
+    
     func drawStripes(_ B: CGFloat, _ L: CGFloat)
     {
         var stripeRect = CGRect(x: 0, y: 0, width: B, height: L)
@@ -55,9 +70,17 @@ class FlagView: UIView
         }
     }
     
+    /// Draws the entire star field by creating one star path
+    /// and translating it to the other 49 locations
+    ///
+    /// - Parameters:
+    ///   - E: vertical distance between stars
+    ///   - G: horizontal distance between stars
+    ///   - K: diameter of each star
+    
     func drawStarField(_ E: CGFloat, _ G: CGFloat, _ K: CGFloat)
     {
-        let star = starPath(center: CGPoint(x: G, y: E), radius: K/2) // create one star
+        let star = regularPolygon(sides: 5, center: CGPoint(x: G, y: E), radius: K/2, stride: 2) // create one star
         let tab = CGAffineTransform(translationX: 2*G, y: 0) // xform to move to the right
         let cr = CGAffineTransform(translationX: -11*G, y: E) // xform to move down and back
         for r in 0..<9 { // 9 rows
@@ -69,23 +92,56 @@ class FlagView: UIView
         }
     }
     
-    func starPath(center: CGPoint, radius: CGFloat) -> UIBezierPath
+    /// Creates the Bezier path of a regular N-sided polygon pointing up by default
+    ///
+    /// - Parameters:
+    ///   - sides: number of sides or vertices
+    ///   - center: center point
+    ///   - radius: distance from center to any vertex
+    ///   - start: angle of first vertex (defaults to -π/2)
+    ///   - stride: points to skip when connecting the dots
+    ///
+    /// - Returns: Bezier path
+    
+    func regularPolygon(sides: Int, center: CGPoint, radius: CGFloat, start: CGFloat? = -CGFloat.pi/2, stride: Int? = 1) -> UIBezierPath
     {
-        let angleDiff = 4 * CGFloat(Float.pi) / 5
+        let delta = 2 * CGFloat.pi / CGFloat(sides) * CGFloat(stride!)
         let path = UIBezierPath()
-        path.move(to: CGPoint(x: center.x + CGFloat(cos(-Float.pi/2)) * radius,
-                              y: center.y + CGFloat(sin(-Float.pi/2)) * radius))
-        for i in 0..<5 {
-            let theta = CGFloat(i) * angleDiff - CGFloat(Float.pi/2)
+        path.move(to: CGPoint(x: center.x + CGFloat(cos(start!)) * radius,
+                              y: center.y + CGFloat(sin(start!)) * radius))
+        for i in 0..<sides {
+            let theta = start! + CGFloat(i) * delta
             path.addLine(to: CGPoint(x: center.x + CGFloat(cos(theta)) * radius,
                                      y: center.y + CGFloat(sin(theta)) * radius))
         }
+        path.close()
         return path
     }
+    
+    /// Helper method to create a UIColor, alpha = 1
+    ///
+    /// - Parameters:
+    ///   - r: red component 0-255
+    ///   - g: green component 0-255
+    ///   - b: blue component 0-255
+    ///
+    /// - Returns: UIColor
     
     func color(_ r: Float, _ g: Float, _ b: Float) -> UIColor
     {
         return UIColor.init(colorLiteralRed: r/255, green: g/255, blue: b/255, alpha: 1)
+    }
+    
+    func makeImage()
+    {
+        UIGraphicsBeginImageContext(CGSize(width: 1024 * 1.9, height: 1024))
+        
+        drawFlag(CGRect(x: 0, y: 0, width: 1024 * 1.9, height: 1024))
+        
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
     }
 
 }

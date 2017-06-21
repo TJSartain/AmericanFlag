@@ -10,11 +10,12 @@ import UIKit
 
 class ViewController: UIViewController
 {
-    
+    @IBOutlet weak var flagView: FlagView!
     @IBOutlet weak var infoButton: UIButton!
     
     @IBAction func tap(_ sender: Any)
     {
+//        flagView.makeImage() // used to make the large version for the AppStore icon
         fadeButton(show: self.infoButton.alpha == 0)
     }
     

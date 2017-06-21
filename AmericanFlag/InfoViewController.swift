@@ -20,10 +20,6 @@ class InfoViewController: UIViewController
         hoistButton.layer.borderColor = oldGloryRed.cgColor
         hoistButton.layer.borderWidth = 0.5
         hoistButton.layer.cornerRadius = 5
-        let bgImage = imageFromColor(color: oldGloryBlue)
-        hoistButton.setBackgroundImage(bgImage, for: .normal)
-        let highlightedImage = imageFromColor(color: oldGloryRed)
-        hoistButton.setBackgroundImage(highlightedImage, for: .highlighted)
         hoistButton.backgroundColor = oldGloryBlue
         hoistButton.setTitleColor(UIColor.white, for: .normal)
         hoistButton.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 15)
@@ -32,15 +28,5 @@ class InfoViewController: UIViewController
     func color(_ r: Float, _ g: Float, _ b: Float) -> UIColor
     {
         return UIColor.init(colorLiteralRed: r/255, green: g/255, blue: b/255, alpha: 1)
-    }
-    
-    func imageFromColor(color: UIColor) -> UIImage
-    {
-        let rect = CGRect(x: 0, y: 0, width: 50, height: 31)
-        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
-        color.setFill()
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image!
     }
 }

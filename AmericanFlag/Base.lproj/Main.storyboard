@@ -51,6 +51,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="flagView" destination="Hwy-p5-Lk3" id="ymE-Rc-TxJ"/>
                         <outlet property="infoButton" destination="Mlt-2s-bJv" id="bNs-iE-INu"/>
                     </connections>
                 </viewController>
