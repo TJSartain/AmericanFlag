@@ -15,7 +15,7 @@ class ViewController: UIViewController
     
     @IBAction func tap(_ sender: Any)
     {
-      makeImage() // used to make the large version for the AppStore icon
+//        makeImage() // used to make the large version for the AppStore icon
         fadeButton(show: self.infoButton.alpha == 0)
     }
     
@@ -42,3 +42,14 @@ class ViewController: UIViewController
 
 }
 
+/*
+ 
+ Add this to the plist for creating images in the Photos library
+ 
+ 
+ <key>NSCameraUsageDescription</key>
+ <string>This app needs access to the camera to take photos.</string>
+ <key>NSPhotoLibraryUsageDescription</key>
+ <string>This app needs access to photos.</string>
+ 
+ */
